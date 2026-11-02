@@ -5,6 +5,7 @@ pipeline {
         TAG   = "${BUILD_NUMBER}"
         EC2   = 'ubuntu@ec2-3-139-233-44.us-east-2.compute.amazonaws.com'
         PORT  = '8080'
+        PATH+DOCKER = 'C:\\Program Files\\Docker\\Docker\\resources\\bin'
     }
     stages {
         stage('Docker Build') {
