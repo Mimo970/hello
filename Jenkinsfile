@@ -1,23 +1,23 @@
 pipeline {
     agent any
     environment {
-        IMAGE = 'adr9702297/hello'
-        TAG   = "${BUILD_NUMBER}"
-        EC2   = 'ubuntu@ec2-3-139-233-44.us-east-2.compute.amazonaws.com'
-        PORT  = '8080'
-        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+        IMAGE  = 'adr9702297/hello'
+        TAG    = "${BUILD_NUMBER}"
+        EC2    = 'ubuntu@ec2-3-139-233-44.us-east-2.compute.amazonaws.com'
+        PORT   = '8080'
+        DOCKER = 'C:\\Users\\adr97\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
     }
     stages {
         stage('Docker Build') {
-            steps { bat "docker build -t %IMAGE%:%TAG% -t %IMAGE%:latest ." }
+            steps { bat '"%DOCKER%" build -t %IMAGE%:%TAG% -t %IMAGE%:latest .' }
         }
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub',
                         usernameVariable: 'DH_USER', passwordVariable: 'DH_TOKEN')]) {
-                    bat 'docker login -u %DH_USER% -p %DH_TOKEN%'
-                    bat 'docker push %IMAGE%:%TAG%'
-                    bat 'docker push %IMAGE%:latest'
+                    bat '"%DOCKER%" login -u %DH_USER% -p %DH_TOKEN%'
+                    bat '"%DOCKER%" push %IMAGE%:%TAG%'
+                    bat '"%DOCKER%" push %IMAGE%:latest'
                 }
             }
         }
@@ -32,6 +32,6 @@ pipeline {
     }
     post {
         success { echo "Deployed: http://ec2-3-139-233-44.us-east-2.compute.amazonaws.com:${PORT}" }
-        always  { bat 'docker logout' }
+        always  { bat '"%DOCKER%" logout || exit /b 0' }
     }
 }
