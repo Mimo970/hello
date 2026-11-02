@@ -24,7 +24,7 @@ public class HelloServer {
                         <body style="font-family: sans-serif; text-align: center; padding-top: 60px;">
                             <h1 style="color: #2a6ebb;">Hello, DevOps!</h1>
                             <p>Welcome to our first DevOps demo application.</p>
-                            <p>This page is generated to verify the build and deployment pipeline.</p>
+                            <p>My First CI/CD pipeline has been successfully built and deployed. It works!</p>
                             <hr style="width: 300px; margin: 40px auto;">
                             <p style="color: #888; font-size: 0.9em;">
                                 &copy; DevOps Demo | Computer Science - Alexander Rodriguez
